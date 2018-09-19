@@ -5,61 +5,45 @@ using Windows.Media;
 using Windows.Storage;
 using Windows.AI.MachineLearning.Preview;
 
-// inkshapes
+// InkShapes
 
-namespace DJIDemo
+namespace InkShapes
 {
-    public sealed class InkshapesModelInput
+    public sealed class InkShapesModelInput
     {
         public VideoFrame data { get; set; }
     }
 
-    public sealed class InkshapesModelOutput
+    public sealed class InkShapesModelOutput
     {
         public IList<string> classLabel { get; set; }
         public IDictionary<string, float> loss { get; set; }
-        public InkshapesModelOutput()
+        public InkShapesModelOutput(int lossCount)
         {
             this.classLabel = new List<string>();
-            this.loss = new Dictionary<string, float>()
+            this.loss = new Dictionary<string, float>();
+            for (int i = 0; i < lossCount; i++)
             {
-                { "airplane", float.NaN },
-                { "axe", float.NaN },
-                { "bike", float.NaN },
-                { "bird", float.NaN },
-                { "bomb", float.NaN },
-                { "cake", float.NaN },
-                { "car", float.NaN },
-                { "cat", float.NaN },
-                { "chair", float.NaN },
-                { "doughnut", float.NaN },
-                { "duck", float.NaN },
-                { "fish", float.NaN },
-                { "flower", float.NaN },
-                { "guitar", float.NaN },
-                { "heart", float.NaN },
-                { "house", float.NaN },
-                { "poop", float.NaN },
-                { "rocket", float.NaN },
-                { "shoe", float.NaN },
-                { "stick_figure", float.NaN },
-                { "sun", float.NaN },
-            };
+                this.loss.Add(i.ToString(), float.NaN);
+            }
         }
     }
 
-    public sealed class InkshapesModel
+    public sealed class InkShapesModel
     {
+        private int _lossCount;
+
         private LearningModelPreview learningModel;
-        public static async Task<InkshapesModel> CreateInkshapesModel(StorageFile file)
+        public static async Task<InkShapesModel> CreateInkShapesModel(StorageFile file, int lossCount)
         {
             LearningModelPreview learningModel = await LearningModelPreview.LoadModelFromStorageFileAsync(file);
-            InkshapesModel model = new InkshapesModel();
+            InkShapesModel model = new InkShapesModel();
             model.learningModel = learningModel;
+            model._lossCount = lossCount;
             return model;
         }
-        public async Task<InkshapesModelOutput> EvaluateAsync(InkshapesModelInput input) {
-            InkshapesModelOutput output = new InkshapesModelOutput();
+        public async Task<InkShapesModelOutput> EvaluateAsync(InkShapesModelInput input) {
+            InkShapesModelOutput output = new InkShapesModelOutput(_lossCount);
             LearningModelBindingPreview binding = new LearningModelBindingPreview(learningModel);
             binding.Bind("data", input.data);
             binding.Bind("classLabel", output.classLabel);
