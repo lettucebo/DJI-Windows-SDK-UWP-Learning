@@ -90,7 +90,6 @@ SDK将飞行器抽象成多个部分，该模块包含各个模块的管理
 ---
 
 # **From Official github samples:DJI SDK Sample for Windows 10 and Universal Windows Platform 
-![Screenshot](http://www2.djicdn.com/assets/images/products/mavic-air/banner/drone-2aa05a6dc1fd6c94dfe80f6bd4a907ba.png?from=cdnMap)
 
 This sample is a [Universal Windows Platform](https://docs.microsoft.com/en-us/windows/uwp/get-started/universal-application-platform-guide)* app that demonstrates DJI Windows SDK capabilities: 
 * Aircraft's camera video feed 
@@ -99,8 +98,6 @@ This sample is a [Universal Windows Platform](https://docs.microsoft.com/en-us/w
 * Flight telemetry data events
 
 The app leverages XAML-based UI and Windows ML, running inference (evaluation) on top of aircraft's video feed using a [Windows ML](https://docs.microsoft.com/en-us/windows/uwp/machine-learning/) model. 
-
-![Screenshot](https://user-images.githubusercontent.com/4735184/39741103-4605c4fc-524d-11e8-92d4-0ff200b501ca.jpg)
 
 ## Windows ML ##  
 This sample uses a WinML model called InkShapes. It was made by [Nikola Metulev](https://github.com/nmetulev) and trained in [Custom Vision](https://www.customvision.ai/) on simple black-and-white hand-drawn pictures representing one of 21 categories, such as house, flower, stick figure, bike, and others.
