@@ -1,5 +1,7 @@
 # DJI-Windows-SDK-UWP-Learning
 大疆windows-sdk(alpha version)学习和自己的理(miu)解(lun)
+---
+（official）https://github.com/dji-sdk/Windows-SDK
 
 ---
 ## Prerequisite
