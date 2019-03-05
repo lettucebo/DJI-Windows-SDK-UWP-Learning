@@ -65,7 +65,6 @@
     <Compile Include="Controls\JoystickControl.xaml.cs">
       <DependentUpon>JoystickControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="InkShapesModel.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -79,13 +78,13 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\$(Configuration)\$(PlatformName)\DJIClient.Win32\DJIClient.dll">
+    <Content Include="..\Debug\x86\DJIClient.Win32\DJIClient.dll">
       <Link>DJIClient.dll</Link>
     </Content>
     <Content Include="..\$(Configuration)\$(PlatformName)\DJIClient.Win32\DJIClient.pdb">
       <Link>DJIClient.pdb</Link>
     </Content>
-    <Content Include="..\$(Configuration)\$(PlatformName)\DJIVideoParser.dll">
+    <Content Include="..\Debug\x86\DJIVideoParser.dll">
       <Link>DJIVideoParser.dll</Link>
     </Content>
     <Content Include="..\$(Configuration)\$(PlatformName)\DJIVideoParser.pdb">
@@ -108,9 +107,11 @@
     </Content>
     <Content Include="..\ThirdParties\dependencies\pthread_dll.dll">
       <Link>pthread_dll.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DJIWindowsSDK\dji-windows-sdk\bin\windows_sdk.dll">
       <Link>windows_sdk.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\joystick_left.png" />
     <Content Include="Assets\joystick_right.png" />

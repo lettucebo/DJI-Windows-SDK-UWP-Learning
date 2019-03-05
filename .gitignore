@@ -114,3 +114,4 @@ vc140.pdb
 
 # Cert file
 !*.pfx
+/WinDrone.sln.DotSettings.user

@@ -20,7 +20,7 @@ namespace DJIDemo
         private CoreDispatcher Dispatcher;
         private DJIClient djiClient;
 
-        private InkShapes.InkShapesModel mlModel = null;
+        private InkshapesModel mlModel = null;
         private Task runProcessTask = null;
 
         public MainPageViewModel(CoreDispatcher dispatcher, DJIClient djiClient)
@@ -278,10 +278,10 @@ namespace DJIDemo
                 if (mlModel == null)
                 {
                     var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///WinML/InkShapesModel.onnx"));
-                    mlModel = await InkShapes.InkShapesModel.CreateInkShapesModel(file, 21);
+                    mlModel = await InkshapesModel.CreateInkshapesModel(file);
                 }
 
-                InkShapes.InkShapesModelInput input = new InkShapes.InkShapesModelInput();
+                InkshapesModelInput input = new InkshapesModelInput();
                 input.data = frame;
                 var output = await mlModel.EvaluateAsync(input);
 
