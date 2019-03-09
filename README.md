@@ -16,7 +16,6 @@ To use DJI windows SDK:
 * Change to 2.4GHz
 * Connect Mavic Air to DJi Assistant 2
 * Setup Summary
-:![](pics/setup-summary.JPG):
 
 ---
 ## Build And Run SDK Sample
@@ -46,7 +45,6 @@ SDK將飛行器抽象成多個部分，該模塊包含各個模塊的管理
 ## error occured when building,debuging...
 1. *錯誤 C7510 “Callback”: 模板 從屬名稱的使用必須以“模板”為前綴*
 * C/C++ -> 語言 -> 符合模式：關閉/permissive-[取消禁用多語言擴展，本是為了適應跨平臺跨編譯器編譯Windows C++代碼做的檢查，但是攔住了WRL里的Callback末班函數的調用]
-2. *錯誤 CS0246	未能找到類型或命名空間名“InkShapes”(是否缺少 using 指令或程式集引用?)
 ---
 ---
 ## Deep-Diging into DJIVideoParser with ffmepg
