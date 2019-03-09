@@ -32,57 +32,57 @@ It consists of four modules：SDKManager,VideoFeeder,VirtualRemoteController and
 1. SDKManager
 Only entry of DJI Windows SDK. It contains the other modules.
 2. VideoFeeder
-Used to receive the real-time video feed.不同的飞行器会返回不同的视频流，当前的SDk只支持基础的视频流
+Used to receive the real-time video feed.不同的飛行器會返回不同的視頻流，當前的SDk只支持基礎的視頻流
 3. VirtualRemoteController
-SDK和Mavica Air通过Wi-Fi连接，充当一个虚拟遥控器。该模块包含一个SetJoyStickValue(float, float, float, float)接口以模拟操纵杆
+SDK和Mavica Air通過Wi-Fi連接，充當一個虛擬遙控器。該模塊包含一個SetJoyStickValue(float, float, float, float)介面以模擬操縱桿
 4. ComponentManager
-SDK将飞行器抽象成多个部分，该模块包含各个模块的管理
+SDK將飛行器抽象成多個部分，該模塊包含各個模塊的管理
 
 ---
-## 注意事项
-* 当SDKManager 激活的时候SDKManager返回的ComponentManager和其返回的句柄必须为non-null[没有飞行器连接的时候句柄可用但会报错]
-* 执行结果并不是立即返回的，SDK和飞行器之间的信息交互是异步的
+## 註意事項
+* 當SDKManager 激活的時候SDKManager返回的ComponentManager和其返回的句柄必須為non-null[沒有飛行器連接的時候句柄可用但會報錯]
+* 執行結果並不是立即返回的，SDK和飛行器之間的信息交互是異步的
 ---
 ## error occured when building,debuging...
-1. *错误 C7510 “Callback”: 模板 从属名称的使用必须以“模板”为前缀*
-* C/C++ -> 语言 -> 符合模式：关闭/permissive-[取消禁用多语言扩展，本是为了适应跨平台跨编译器编译Windows C++代码做的检查，但是拦住了WRL里的Callback末班函数的调用]
-2. *错误 CS0246	未能找到类型或命名空间名“InkShapes”(是否缺少 using 指令或程序集引用?)
+1. *錯誤 C7510 “Callback”: 模板 從屬名稱的使用必須以“模板”為前綴*
+* C/C++ -> 語言 -> 符合模式：關閉/permissive-[取消禁用多語言擴展，本是為了適應跨平臺跨編譯器編譯Windows C++代碼做的檢查，但是攔住了WRL里的Callback末班函數的調用]
+2. *錯誤 CS0246	未能找到類型或命名空間名“InkShapes”(是否缺少 using 指令或程式集引用?)
 ---
 ---
 ## Deep-Diging into DJIVideoParser with ffmepg
-深入理解视频解析部分
+深入理解視頻解析部分
 ### 1. djivideoparser.cpp：入口
-* 初始化和销毁
+* 初始化和銷毀
 * SetWindow(int product_id, int product_type, int index, void* window)
 * set_callback(int product_id, int index, std::function<void(uint8_t *data, int width, int height)> func)
 * set_parser_data(int product_id, int index, const unsigned char *data, size_t data_length)
-### 2. modulemediator.cpp:VideoParserMgr类型的共享内存区的管理
-* 初始化和销毁
-### 3. videoparsermgr.cpp：管理各个设备传回的视频流，放在一个videoparser.VideoParser类型的共享内存区
-* 初始化和销毁
+### 2. modulemediator.cpp:VideoParserMgr類型的共用內存區的管理
+* 初始化和銷毀
+### 3. videoparsermgr.cpp：管理各個設備傳回的視頻流，放在一個videoparser.VideoParser類型的共用內存區
+* 初始化和銷毀
 * AddDevice(int product_id)
 * ParserData(int product_id, int component_index, const unsigned char* data, unsigned int len)
 * RemoveDevice(int product_id)
-### 4. videoparser.cpp：VideoParser类型的共享内存区处理数据的入口
-* 初始化和销毁 
-对Previewer、DjiCodec和VideoWrapper进行初始化
+### 4. videoparser.cpp：VideoParser類型的共用內存區處理數據的入口
+* 初始化和銷毀 
+對Previewer、DjiCodec和VideoWrapper進行初始化
 * ParserData(const unsigned char* buff, unsigned int size)
-根据不同的码长区分不同飞行器返回的数据流，然后调用VideoWrapper.PutToQueue()
-### 5. VideoWrapper.cpp：封装了视频解析中的视频帧回退清空暂停等操作
+根據不同的碼長區分不同飛行器返回的數據流，然後調用VideoWrapper.PutToQueue()
+### 5. VideoWrapper.cpp：封裝了視頻解析中的視頻幀回退清空暫停等操作
 * s_rate=30 -> fps?
-* 初始化和销毁
+* 初始化和銷毀
 * SetVideoFrameCallBack(std::function<void(uint8_t *data, int width, int height)> func)
 * PauseParserThread(bool isPause)
 * ClearFrame()
 * PutToQueue(const uint8_t* buffer, int size, uint64_t pts)
-根据pts区分数据流是实时视频还是视频帧，然后调用H264_Decoder.videoFrameParse()
+根據pts區分數據流是實時視頻還是視頻幀，然後調用H264_Decoder.videoFrameParse()
 * PutVideoToQueue(const uint8_t* buffer, int size, uint64_t pts)
 * FramePacket(uint8_t* buff, int size, FrameType type, int width, int height)
-### 6. h264_Decoder.cpp：解码部分with ffmepg
+### 6. h264_Decoder.cpp：解碼部分with ffmepg
 * videoFrameParse(const uint8_t* buff, int video_size, FrameType type, uint64_t pts)
-将数据流加入队列，填充ffmepg
+將數據流加入隊列，填充ffmepg
 
-### 7. Queue.cpp：基本数据结构
+### 7. Queue.cpp：基本數據結構
 ### 8. Utils.cpp：工具
 
 
@@ -142,5 +142,3 @@ Video decoding component doesn't leverage hardware acceleration yet.
 The sample C# app uses the SDK via an additional DJIClient DLL and PInvoke calls. 
 
 Full Universal Windows Platform support and other improvements are coming later towards the release of DJI Windows SDK. 
-
-
